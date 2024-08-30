@@ -1,0 +1,33 @@
+name: motivation
+description: A motivational app
+publish_to: 'none' # Remove this line if you are publishing the package
+
+environment:
+  sdk: ">=2.19.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+  shared_preferences: ^2.0.15  # Include shared_preferences dependency
+  # Add other dependencies here
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  # Add other dev dependencies here
+
+flutter:
+  uses-material-design: true
+
+  # Include assets if they exist
+  assets:
+    - assets/images/ # Ensure this directory exists if used
+    # Add other assets here
+
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans-Regular.ttf
+        - asset: fonts/OpenSans-Bold.ttf
+          weight: 700
