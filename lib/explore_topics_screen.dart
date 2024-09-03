@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:motivation/theme_notifier.dart';
+import 'package:provider/provider.dart';
 import 'dart:async'; // Import for Timer
 import 'random_quotes_screen.dart';
 import 'daily_quotes_screen.dart';
@@ -11,6 +13,7 @@ import 'self_care_quotes_screen.dart';
 import 'patience_quotes_screen.dart';
 import 'sadness_quotes_screen.dart';
 import 'sigma_quotes_screen.dart'; // Import the new screen
+import 'settings_screen.dart'; // Import the settings screen
 
 class ExploreTopicsScreen extends StatefulWidget {
   @override
@@ -32,6 +35,7 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
   ];
   List<String> filteredTopics = [];
   List<String> favoritedQuotes = [];
+  bool _isPanelVisible = false; // Track the visibility of the panel
 
   final List<String> randomQuotes = [
     "You are capable of more than you know.",
@@ -89,7 +93,7 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
     "The best way to predict the future is to invent it. – Alan Kay"
   ];
 
-  final List<String> sadnessQuotes = [ // New list for sadness quotes
+  final List<String> sadnessQuotes = [
     "The pain you feel today is the strength you feel tomorrow.",
     "Tears are words the heart can't express.",
     "Sometimes, the only way to be heard is to speak through your tears.",
@@ -102,7 +106,7 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
     "When you are sorrowful, look again in your heart, and you shall see that in truth you are weeping for that which has been your delight."
   ];
 
-  final List<String> sigmaQuotes = [ // New list for sigma quotes
+  final List<String> sigmaQuotes = [
     "A true sigma knows their worth and doesn’t seek validation from others.",
     "Strength doesn’t come from what you can do; it comes from overcoming the things you once thought you couldn’t.",
     "Sometimes you have to stand alone to prove that you can still stand.",
@@ -131,7 +135,9 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
   }
 
   String _getRandomQuote() {
-    final randomIndex = (randomQuotes.length * (DateTime.now().millisecondsSinceEpoch / 1000 % 1)).toInt();
+    final randomIndex = (randomQuotes.length * (DateTime
+        .now()
+        .millisecondsSinceEpoch / 1000 % 1)).toInt();
     return randomQuotes[randomIndex % randomQuotes.length];
   }
 
@@ -153,6 +159,12 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
     });
   }
 
+  void _togglePanel() {
+    setState(() {
+      _isPanelVisible = !_isPanelVisible;
+    });
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -161,89 +173,136 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // Prevent back navigation
-        return false;
-      },
-      child: Scaffold(
-        backgroundColor: Color(0xFF1E293B),
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final themeData = themeNotifier.currentTheme;
+    return Scaffold(
+        backgroundColor: themeData.scaffoldBackgroundColor, // Use scaffoldBackgroundColor for background color
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Color(0xFF1E293B),
-          elevation: 0,
-          title: Text('Explore Topics', style: TextStyle(color: Colors.white)),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.favorite, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyFavoritesScreen(
-                    favoritedQuotes: favoritedQuotes,
-                    onFavoriteToggle: _toggleFavorite,
-                  )),
-                );
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF1E293B),
+    elevation: 0,
+    title: Text('Explore Topics', style: TextStyle(color: Colors.white)),
+    centerTitle: true,
+    ),
+    body: Stack(
+    children: [
+    Padding(
+    padding: const EdgeInsets.all
+      (8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 8),
+          TextField(
+            onChanged: _filterTopics,
+            style: TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: "Search topics",
+              hintStyle: TextStyle(color: Colors.white70),
+              filled: true,
+              fillColor: Color(0xFF334155),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              itemCount: filteredTopics.length,
+              itemBuilder: (context, index) {
+                final topic = filteredTopics[index];
+                return _buildTopicCard(topic);
               },
+            ),
+          ),
+        ],
+      ),
+    ),
+      Positioned(
+        bottom: 25,
+        right: 120,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedOpacity(
+              opacity: _isPanelVisible ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 300),
+              child: Container(
+                width: 160,
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Color(0xFF2D3748),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black54, blurRadius: 8)
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.favorite, color: Colors.red),
+                      title: Text("Favorites", style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyFavoritesScreen(favoritedQuotes: favoritedQuotes, onFavoriteToggle: (String quote) { _toggleFavorite(quote); })),
+                        );
+                      },
+                    ),
+                    Divider(color: Colors.white24),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.settings, color: Colors.green),
+                      title: Text("Settings", style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SettingsScreen()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 8),
+            FloatingActionButton(
+              backgroundColor: Color(0xFF1E293B),
+              child: Icon(_isPanelVisible ? Icons.close : Icons.menu, color: Colors.white),
+              onPressed: _togglePanel,
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 8),
-              TextField(
-                onChanged: _filterTopics,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: "Search topics",
-                  hintStyle: TextStyle(color: Colors.white70),
-                  filled: true,
-                  fillColor: Color(0xFF334155),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  prefixIcon: Icon(Icons.search, color: Colors.white70),
-                ),
-              ),
-              SizedBox(height: 8),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                  ),
-                  itemCount: filteredTopics.length,
-                  itemBuilder: (context, index) {
-                    return _buildTopicCard(filteredTopics[index]);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
+    ],
+    ),
     );
   }
 
-  Widget _buildTopicCard(String title) {
+  Widget _buildTopicCard(String topic) {
     return GestureDetector(
       onTap: () {
         Widget screen;
 
-        switch (title) {
+        switch (topic) {
           case 'Random Quotes':
             screen = RandomQuotesScreen(
               quote: _currentRandomQuote,
               favoritedQuotes: favoritedQuotes,
               onFavoriteToggle: _toggleFavorite,
+              themeData: Theme.of(context), // Pass the themeData here
             );
             break;
+
           case 'Daily Quotes':
             screen = DailyQuotesScreen(
               dailyQuotes: dailyQuotes,
@@ -307,11 +366,17 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
               onFavoriteToggle: _toggleFavorite,
             );
             break;
-          default:
-            screen = Scaffold(
-              body: Center(child: Text('Unknown topic')),
+          case 'My Favorites':
+            screen = MyFavoritesScreen(
+              favoritedQuotes: favoritedQuotes,
+              onFavoriteToggle: _toggleFavorite,
             );
             break;
+          case 'Settings':
+            screen = SettingsScreen();
+            break;
+          default:
+            screen = Container(); // Default case if needed
         }
 
         Navigator.push(
@@ -321,14 +386,17 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
       },
       child: Card(
         color: Color(0xFF334155),
+        elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: Text(
-            title,
-            style: TextStyle(color: Colors.white, fontSize: 16),
-            textAlign: TextAlign.center,
+            topic,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
           ),
         ),
       ),

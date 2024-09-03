@@ -29,6 +29,12 @@ class FavoriteQuotesManager {
     }
   }
 
+  // Remove all quotes from the favorites list
+  Future<void> removeAllFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_favoritesKey);
+  }
+
   // Check if a quote is in the favorites list
   Future<bool> isFavorite(String quote) async {
     final prefs = await SharedPreferences.getInstance();

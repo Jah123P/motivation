@@ -8,14 +8,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.1.2
-  shared_preferences: ^2.0.15  # Include shared_preferences dependency
-  # Add other dependencies here
+  provider: ^6.0.3 # Add this line for state management
+  sqflite: ^2.0.0+4
+  path: ^1.8.0
+  shared_preferences: ^2.0.15
+  sqflite_common_ffi: ^2.3.3
+  flutter_local_notifications: ^17.2.2
+  permission_handler: ^11.2.0
+  timezone: ^0.9.4 # Ensure this version matches flutter_local_notifications requirements
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # Add other dev dependencies here
+  flutter_launcher_icons: ^0.12.0 # or the latest version
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/images/appicon.png
 
 flutter:
   uses-material-design: true

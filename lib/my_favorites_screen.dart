@@ -24,7 +24,7 @@ class MyFavoritesScreen extends StatelessWidget {
           },
         ),
         title: Text('My Favorites', style: TextStyle(color: Colors.white)),
-        centerTitle: true,// Consistent text style
+        centerTitle: true, // Consistent text style
       ),
       body: favoritedQuotes.isEmpty
           ? Center(
@@ -65,6 +65,7 @@ class MyFavoritesScreen extends StatelessWidget {
                 quote: quote,
                 favoritedQuotes: favoritedQuotes,
                 onFavoriteToggle: onFavoriteToggle,
+                themeData: Theme.of(context), // Pass the current ThemeData
               ),
             ),
           );

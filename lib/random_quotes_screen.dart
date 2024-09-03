@@ -5,11 +5,13 @@ class RandomQuotesScreen extends StatefulWidget {
   final String quote;
   final List<String> favoritedQuotes;
   final Function(String) onFavoriteToggle;
+  final ThemeData themeData; // Add themeData parameter
 
   RandomQuotesScreen({
     required this.quote,
     required this.favoritedQuotes,
     required this.onFavoriteToggle,
+    required this.themeData, // Initialize themeData
   });
 
   @override
@@ -36,23 +38,23 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1E293B), // Matching color with other screens
-        title: Text('Quote', style: TextStyle(color: Colors.white)),
+        backgroundColor: widget.themeData.appBarTheme.backgroundColor ?? Color(0xFF1E293B), // Use themeData for background color
+        title: Text('Quote', style: TextStyle(color: widget.themeData.textTheme.headlineLarge?.color ?? Colors.white)),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: widget.themeData.iconTheme.color ?? Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      backgroundColor: Color(0xFF1E293B), // Matching color with other screens
+      backgroundColor: widget.themeData.scaffoldBackgroundColor ?? Color(0xFF1E293B), // Use themeData for background color
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Color(0xFF334155), // Matching color with other screens
+            color: widget.themeData.cardColor ?? Color(0xFF334155), // Use themeData for container color
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Column(
@@ -60,7 +62,7 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
             children: [
               Text(
                 widget.quote,
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(color: widget.themeData.textTheme.bodyLarge?.color ?? Colors.white, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
@@ -68,8 +70,7 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.favorite,
-                        color: isFavorited ? Colors.red : Colors.white),
+                    icon: Icon(Icons.favorite, color: isFavorited ? Colors.red : widget.themeData.iconTheme.color ?? Colors.white),
                     onPressed: () {
                       setState(() {
                         isFavorited = !isFavorited;
@@ -83,7 +84,7 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.copy, color: Colors.white), // Changed to copy icon
+                    icon: Icon(Icons.copy, color: widget.themeData.iconTheme.color ?? Colors.white), // Use themeData for icon color
                     onPressed: _copyToClipboard, // Updated function
                   ),
                 ],

@@ -35,23 +35,19 @@ class _ThemeScreenState extends State<ThemeScreen> {
               onEnter: (_) {
                 setState(() {
                   backgroundColor = Colors.white;
-                  textColor = Colors.black;  // Change text color to black on hover
+                  textColor = Colors.black;
                 });
               },
               onExit: (_) {
                 setState(() {
                   backgroundColor = Colors.black;
-                  textColor = Colors.white;  // Revert text color to white
+                  textColor = Colors.white;
                 });
               },
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ThankYouScreen(name: widget.userName),
-                    ),
-                  );
+                  _navigateToThankYouScreen(context);
+                  // If you have a global state management, set the theme globally here
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
@@ -69,12 +65,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ThankYouScreen(name: widget.userName),
-                  ),
-                );
+                _navigateToThankYouScreen(context);
+                // If you have a global state management, set the theme globally here
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
@@ -90,6 +82,15 @@ class _ThemeScreenState extends State<ThemeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _navigateToThankYouScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ThankYouScreen(name: widget.userName),
       ),
     );
   }
