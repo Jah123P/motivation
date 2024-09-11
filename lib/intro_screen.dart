@@ -4,16 +4,15 @@ import 'age_screen.dart'; // Import the age screen
 class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Get the screen size
     final Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.black, // Set background color to black
+      backgroundColor: Colors.black,
       body: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: screenSize.width * 0.05, // Horizontal padding proportional to screen width
-            vertical: screenSize.height * 0.1, // Vertical padding proportional to screen height
+            horizontal: screenSize.width * 0.05,
+            vertical: screenSize.height * 0.1,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -21,13 +20,13 @@ class IntroScreen extends StatelessWidget {
               Text(
                 'Welcome to Kaizen',
                 style: TextStyle(
-                  fontSize: screenSize.width * 0.06, // Responsive font size
+                  fontSize: screenSize.width * 0.06,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // Set text color to white
+                  color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: screenSize.height * 0.05), // Responsive spacing
+              SizedBox(height: screenSize.height * 0.05),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -36,22 +35,22 @@ class IntroScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Button color
+                  backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(
-                    vertical: screenSize.height * 0.02, // Responsive vertical padding
-                    horizontal: screenSize.width * 0.1, // Responsive horizontal padding
+                    vertical: screenSize.height * 0.02,
+                    horizontal: screenSize.width * 0.1,
                   ),
                   textStyle: TextStyle(
-                    fontSize: screenSize.width * 0.05, // Responsive font size
+                    fontSize: screenSize.width * 0.05,
                     fontWeight: FontWeight.bold,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // Rounded button
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
                 child: Text(
                   'Begin Your Journey',
-                  style: TextStyle(color: Colors.white), // Set button text color to white
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],

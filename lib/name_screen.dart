@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Import for TextInputFormatter
-import 'theme_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'user_model.dart';
+import 'thank_you_screen.dart';
 
 class NameScreen extends StatefulWidget {
+  final String ageRange;
+
+  NameScreen({required this.ageRange});
+
   @override
   _NameScreenState createState() => _NameScreenState();
 }
@@ -14,11 +20,9 @@ class _NameScreenState extends State<NameScreen> {
   @override
   void initState() {
     super.initState();
-    // Add listener to capitalize the first letter
     _controller.addListener(() {
       final text = _controller.text;
       if (text.isNotEmpty) {
-        // Capitalize the first letter
         final newText = text[0].toUpperCase() + text.substring(1);
         if (newText != text) {
           _controller.value = _controller.value.copyWith(
@@ -54,7 +58,7 @@ class _NameScreenState extends State<NameScreen> {
                 decoration: InputDecoration(
                   hintText: 'Enter your name',
                   hintStyle: TextStyle(color: Colors.white54),
-                  errorText: _errorText, // Display error text
+                  errorText: _errorText,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(color: Colors.white),
@@ -64,7 +68,7 @@ class _NameScreenState extends State<NameScreen> {
                 ),
                 style: TextStyle(color: Colors.white),
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')), // Allow only letters and spaces
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                 ],
               ),
               SizedBox(height: 20),
@@ -73,8 +77,8 @@ class _NameScreenState extends State<NameScreen> {
                   _validateInput(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Match button color
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12), // Match padding
+                  backgroundColor: Colors.blue,
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -95,7 +99,6 @@ class _NameScreenState extends State<NameScreen> {
     setState(() {
       String enteredName = _controller.text.trim();
 
-      // Validate the input
       if (enteredName.isEmpty) {
         _errorText = 'Please enter your name';
       } else if (enteredName.length < 3) {
@@ -104,10 +107,18 @@ class _NameScreenState extends State<NameScreen> {
         _errorText = 'Numbers are not allowed';
       } else {
         _errorText = null;
-        Navigator.push(
+
+        // Update the user data in UserModel
+        Provider.of<UserModel>(context, listen: false).updateUserName(enteredName);
+        Provider.of<UserModel>(context, listen: false).updateUserAgeRange(widget.ageRange);
+
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => ThemeScreen(userName: enteredName), // Pass the user's name to ThemeScreen
+            builder: (context) => ThankYouScreen(
+              name: enteredName,
+              ageRange: widget.ageRange,
+            ),
           ),
         );
       }

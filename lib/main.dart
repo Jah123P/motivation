@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'theme_notifier.dart'; // Import the theme notifier
-import 'explore_topics_screen.dart'; // Import the explore topics screen
-import 'favorite_quotes_manager.dart'; // Import the favorite quotes manager
+import 'package:shared_preferences/shared_preferences.dart';
+import 'theme_notifier.dart';
+import 'explore_topics_screen.dart';
+import 'favorite_quotes_manager.dart';
+import 'intro_screen.dart';
+import 'user_model.dart'; // Import the UserModel
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final introCompleted = prefs.getBool('introCompleted') ?? false;
 
-  // Initialize the database or perform other startup tasks here
   final FavoriteQuotesManager favoriteQuotesManager = FavoriteQuotesManager();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(),
-      child: MyApp(favoriteQuotesManager: favoriteQuotesManager),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeNotifier()),
+        ChangeNotifierProvider(create: (_) => UserModel()), // Provide the UserModel
+      ],
+      child: MyApp(
+        favoriteQuotesManager: favoriteQuotesManager,
+        introCompleted: introCompleted,
+      ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
   final FavoriteQuotesManager favoriteQuotesManager;
+  final bool introCompleted;
 
-  MyApp({required this.favoriteQuotesManager});
+  MyApp({required this.favoriteQuotesManager, required this.introCompleted});
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +41,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Motivation App',
           theme: themeNotifier.currentTheme,
-          debugShowCheckedModeBanner: false, // Remove the debug banner
-          home: FutureBuilder<List<String>>(
-            future: favoriteQuotesManager.getFavorites(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return ExploreTopicsScreen(); // Pass any data if needed
-                } else {
-                  return Center(child: Text('No favorites found.'));
-                }
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
+          debugShowCheckedModeBanner: false,
+          home: introCompleted ? ExploreTopicsScreen() : IntroScreen(),
         );
       },
     );

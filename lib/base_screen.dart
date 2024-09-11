@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'explore_topics_screen.dart'; // Import the explore topics screen
+import 'explore_topics_screen.dart'; // Import the ExploreTopicsScreen
+import 'package:shared_preferences/shared_preferences.dart'; // Import for data saving
 
 class BaseScreen extends StatelessWidget {
   final String userName; // Add a variable to hold the user's name
+  final String userAgeRange; // Add a variable to hold the user's age range
 
-  BaseScreen({required this.userName}); // Constructor to accept the user's name
+  BaseScreen({required this.userName, required this.userAgeRange}); // Constructor to accept the user's name and age range
 
   @override
   Widget build(BuildContext context) {
+    _saveUserData(); // Save user data when the screen is built
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -55,5 +59,11 @@ class BaseScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _saveUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userName', userName); // Save the user's name
+    await prefs.setString('userAgeRange', userAgeRange); // Save the user's age range
   }
 }

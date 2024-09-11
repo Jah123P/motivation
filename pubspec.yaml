@@ -8,14 +8,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.0.3 # Add this line for state management
-  sqflite: ^2.0.0+4
-  path: ^1.8.0
-  shared_preferences: ^2.0.15
-  sqflite_common_ffi: ^2.3.3
-  flutter_local_notifications: ^17.2.2
-  permission_handler: ^11.2.0
-  timezone: ^0.9.4 # Ensure this version matches flutter_local_notifications requirements
+  provider: ^6.0.3 # State management
+  sqflite: ^2.0.0+4 # SQLite database
+  path: ^1.8.0 # File system path
+  shared_preferences: ^2.0.15 # Local storage
+  sqflite_common_ffi: ^2.3.3 # SQLite for FFI (if needed)
+  flutter_local_notifications: ^17.2.2 # Notifications
+  permission_handler: ^11.2.0 # Permissions
+  timezone: ^0.9.4 # Timezone handling
 
 dev_dependencies:
   flutter_test:
@@ -30,7 +30,6 @@ flutter_icons:
 flutter:
   uses-material-design: true
 
-  # Include assets if they exist
   assets:
     - assets/images/ # Ensure this directory exists if used
     # Add other assets here

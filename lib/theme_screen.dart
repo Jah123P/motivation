@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'thank_you_screen.dart';
+import 'thank_you_screen.dart'; // Import the ThankYouScreen
 
 class ThemeScreen extends StatefulWidget {
-  final String userName;
-
-  ThemeScreen({required this.userName});
-
   @override
   _ThemeScreenState createState() => _ThemeScreenState();
 }
@@ -47,7 +43,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   _navigateToThankYouScreen(context);
-                  // If you have a global state management, set the theme globally here
+                  // Set the theme globally if needed
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
@@ -66,7 +62,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
             ElevatedButton(
               onPressed: () {
                 _navigateToThankYouScreen(context);
-                // If you have a global state management, set the theme globally here
+                // Set the theme globally if needed
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
@@ -90,7 +86,9 @@ class _ThemeScreenState extends State<ThemeScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ThankYouScreen(name: widget.userName),
+        builder: (context) => ThankYouScreen(
+          name: '', ageRange: '', // Empty name as there's no data to pass
+        ),
       ),
     );
   }

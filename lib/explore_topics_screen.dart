@@ -175,116 +175,99 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final themeData = themeNotifier.currentTheme;
+
     return Scaffold(
-        backgroundColor: themeData.scaffoldBackgroundColor, // Use scaffoldBackgroundColor for background color
-        appBar: AppBar(
+      backgroundColor: themeData.scaffoldBackgroundColor, // Use scaffoldBackgroundColor for background color
+      appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF1E293B),
-    elevation: 0,
-    title: Text('Explore Topics', style: TextStyle(color: Colors.white)),
-    centerTitle: true,
-    ),
-    body: Stack(
-    children: [
-    Padding(
-    padding: const EdgeInsets.all
-      (8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 8),
-          TextField(
-            onChanged: _filterTopics,
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              hintText: "Search topics",
-              hintStyle: TextStyle(color: Colors.white70),
-              filled: true,
-              fillColor: Color(0xFF334155),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-              ),
-              itemCount: filteredTopics.length,
-              itemBuilder: (context, index) {
-                final topic = filteredTopics[index];
-                return _buildTopicCard(topic);
-              },
-            ),
+        elevation: 0,
+        title: Text('Explore Topics', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
+        actions: [
+          PopupMenuButton<String>(
+            icon: Icon(Icons.menu, color: Colors.white),
+            onSelected: (String value) {
+              if (value == 'Favorites') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyFavoritesScreen(
+                    favoritedQuotes: favoritedQuotes,
+                    onFavoriteToggle: _toggleFavorite,
+                  )),
+                );
+              } else if (value == 'Settings') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsScreen()),
+                );
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<String>(
+                  value: 'Favorites',
+                  child: Row(
+                    children: [
+                      Icon(Icons.favorite, color: Colors.red),
+                      SizedBox(width: 8),
+                      Text('Favorites'),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'Settings',
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings, color: Colors.green),
+                      SizedBox(width: 8),
+                      Text('Settings'),
+                    ],
+                  ),
+                ),
+              ];
+            },
           ),
         ],
       ),
-    ),
-      Positioned(
-        bottom: 25,
-        right: 120,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AnimatedOpacity(
-              opacity: _isPanelVisible ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 300),
-              child: Container(
-                width: 160,
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Color(0xFF2D3748),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(color: Colors.black54, blurRadius: 8)
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Icon(Icons.favorite, color: Colors.red),
-                      title: Text("Favorites", style: TextStyle(color: Colors.white)),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyFavoritesScreen(favoritedQuotes: favoritedQuotes, onFavoriteToggle: (String quote) { _toggleFavorite(quote); })),
-                        );
-                      },
-                    ),
-                    Divider(color: Colors.white24),
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Icon(Icons.settings, color: Colors.green),
-                      title: Text("Settings", style: TextStyle(color: Colors.white)),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SettingsScreen()),
-                        );
-                      },
-                    ),
-                  ],
+            SizedBox(height: 8),
+            TextField(
+              onChanged: _filterTopics,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: "Search topics",
+                hintStyle: TextStyle(color: Colors.white70),
+                filled: true,
+                fillColor: Color(0xFF334155),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
                 ),
               ),
             ),
-            SizedBox(height: 8),
-            FloatingActionButton(
-              backgroundColor: Color(0xFF1E293B),
-              child: Icon(_isPanelVisible ? Icons.close : Icons.menu, color: Colors.white),
-              onPressed: _togglePanel,
+            SizedBox(height: 16),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemCount: filteredTopics.length,
+                itemBuilder: (context, index) {
+                  final topic = filteredTopics[index];
+                  return _buildTopicCard(topic); // Use the _buildTopicCard method
+                },
+              ),
             ),
           ],
         ),
       ),
-    ],
-    ),
     );
   }
 

@@ -4,11 +4,13 @@ import 'theme_notifier.dart'; // Import the theme notifier
 import 'account_screen.dart';
 import 'privacy_screen.dart';
 import 'help_support_screen.dart';
+import 'user_model.dart'; // Import the user model
 
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final userModel = Provider.of<UserModel>(context); // Access user model
 
     return Scaffold(
       appBar: AppBar(
@@ -90,7 +92,8 @@ class SettingsScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AccountScreen()),
+                      builder: (context) => AccountScreen(), // No need to pass parameters
+                    ),
                   );
                 },
               ),
@@ -104,7 +107,8 @@ class SettingsScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PrivacyScreen()),
+                      builder: (context) => PrivacyScreen(),
+                    ),
                   );
                 },
               ),
@@ -118,7 +122,8 @@ class SettingsScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HelpSupportScreen()),
+                      builder: (context) => HelpSupportScreen(),
+                    ),
                   );
                 },
               ),

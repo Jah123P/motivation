@@ -3,9 +3,10 @@ import 'base_screen.dart';
 
 class ThankYouScreen extends StatelessWidget {
   final String name;
+  final String ageRange; // Add this parameter to pass the ageRange
 
-  // Constructor with required parameter
-  ThankYouScreen({required this.name});
+  // Constructor with required parameters
+  ThankYouScreen({required this.name, required this.ageRange});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,9 @@ class ThankYouScreen extends StatelessWidget {
     Future.delayed(Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BaseScreen(userName: name)),
+        MaterialPageRoute(
+          builder: (context) => BaseScreen(userName: name, userAgeRange: ageRange),
+        ),
       );
     });
 

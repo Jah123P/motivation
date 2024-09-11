@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'name_screen.dart'; // Import the next screen
+import 'package:provider/provider.dart';
+import 'user_model.dart';
+import 'name_screen.dart';
 
 class AgeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Set background to black
+      backgroundColor: Colors.black,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -35,20 +37,23 @@ class AgeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton(
         onPressed: () {
+          // Update the age range in the UserModel using Provider
+          Provider.of<UserModel>(context, listen: false).setAgeRange(ageRange);
+
+          // Navigate to the NameScreen
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => NameScreen()),
+            MaterialPageRoute(
+              builder: (context) => NameScreen(ageRange: '',),
+            ),
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue, // Use the same color as the intro button
-          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0), // Match padding
-          textStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          backgroundColor: Colors.blue,
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+          textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        child: Text(ageRange, style: TextStyle(color: Colors.white)), // Set button text color to white
+        child: Text(ageRange, style: TextStyle(color: Colors.white)),
       ),
     );
   }
