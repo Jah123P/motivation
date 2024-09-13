@@ -38,58 +38,63 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: widget.themeData.appBarTheme.backgroundColor ?? Color(0xFF1E293B), // Use themeData for background color
-        title: Text('Quote', style: TextStyle(color: widget.themeData.textTheme.headlineLarge?.color ?? Colors.white)),
+        backgroundColor: Color(0xFF1E293B), // Match the color with SigmaQuotesScreen
+        title: Text('Random Quote', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: widget.themeData.iconTheme.color ?? Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      backgroundColor: widget.themeData.scaffoldBackgroundColor ?? Color(0xFF1E293B), // Use themeData for background color
+      backgroundColor: Color(0xFF1E293B), // Match the color with SigmaQuotesScreen
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: widget.themeData.cardColor ?? Color(0xFF334155), // Use themeData for container color
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.quote,
-                style: TextStyle(color: widget.themeData.textTheme.bodyLarge?.color ?? Colors.white, fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.favorite, color: isFavorited ? Colors.red : widget.themeData.iconTheme.color ?? Colors.white),
-                    onPressed: () {
-                      setState(() {
-                        isFavorited = !isFavorited;
-                      });
-                      widget.onFavoriteToggle(widget.quote);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(isFavorited
-                            ? 'Quote added to favorites'
-                            : 'Quote removed from favorites')),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.copy, color: widget.themeData.iconTheme.color ?? Colors.white), // Use themeData for icon color
-                    onPressed: _copyToClipboard, // Updated function
-                  ),
-                ],
-              ),
-            ],
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Color(0xFF334155), // Match the color with SigmaQuotesScreen
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Adjusts the height to content
+              children: [
+                Text(
+                  widget.quote,
+                  style: TextStyle(color: Colors.white, fontSize: 18), // Adjusted font size
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 8.0), // Adjusted spacing to match SigmaQuotesScreen
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.favorite,
+                        color: isFavorited ? Colors.red : Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isFavorited = !isFavorited;
+                        });
+                        widget.onFavoriteToggle(widget.quote);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(isFavorited
+                              ? 'Quote added to favorites'
+                              : 'Quote removed from favorites')),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.copy, color: Colors.white), // Consistent icon color
+                      onPressed: _copyToClipboard, // Updated function
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -7,8 +7,6 @@ class UserModel with ChangeNotifier {
   // Getter for the name
   String? get name => _name;
 
-  get userName => null;
-
   // Setter for the name
   set name(String? value) {
     _name = value;
@@ -24,9 +22,21 @@ class UserModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserAgeRange(String ageRange) {}
+  // Method to update the user name
+  void updateUserName(String enteredName) {
+    _name = enteredName;
+    notifyListeners();
+  }
 
-  void updateUserName(String enteredName) {}
+  // Method to update the age range
+  void updateUserAgeRange(String ageRange) {
+    _ageRange = ageRange;
+    notifyListeners();
+  }
 
-  void setAgeRange(String ageRange) {}
+  // This is redundant since the setter already exists, but kept for clarity
+  void setAgeRange(String ageRange) {
+    _ageRange = ageRange;
+    notifyListeners();
+  }
 }

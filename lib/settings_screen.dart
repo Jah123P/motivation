@@ -98,21 +98,7 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
             ),
-            Card(
-              child: ListTile(
-                title: Text('Privacy'),
-                subtitle: Text('Privacy settings'),
-                trailing: Icon(Icons.arrow_forward_ios, color: Theme.of(context).iconTheme.color),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PrivacyScreen(),
-                    ),
-                  );
-                },
-              ),
-            ),
+
             Card(
               child: ListTile(
                 title: Text('Help & Support'),

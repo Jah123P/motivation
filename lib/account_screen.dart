@@ -7,6 +7,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Access the user model
     final userModel = Provider.of<UserModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Account'),
@@ -29,7 +30,7 @@ class AccountScreen extends StatelessWidget {
             Card(
               child: ListTile(
                 title: Text('Name'),
-                subtitle: Text(userModel.name ?? 'Jah'),
+                subtitle: Text(userModel.name ?? 'Not provided'),
                 trailing: Icon(Icons.person, color: Theme.of(context).iconTheme.color),
               ),
             ),
@@ -38,18 +39,14 @@ class AccountScreen extends StatelessWidget {
             Card(
               child: ListTile(
                 title: Text('Age Range'),
-                subtitle: Text(userModel.ageRange ?? '13-17'),
+                subtitle: Text(userModel.ageRange ?? 'Not provided'),
                 trailing: Icon(Icons.cake, color: Theme.of(context).iconTheme.color),
               ),
             ),
             SizedBox(height: 20),
             Center(
-              child: Text(
-                'Hello ${userModel.name ?? 'User'}, welcome to our motivational app!',
-                style: TextStyle(color: Colors.white, fontSize: 18),
-                textAlign: TextAlign.center,
+
               ),
-            ),
           ],
         ),
       ),

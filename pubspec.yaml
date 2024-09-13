@@ -32,7 +32,17 @@ flutter:
 
   assets:
     - assets/images/ # Ensure this directory exists if used
-    # Add other assets here
+    - assets/images/dice.png # Add images for topics
+    - assets/images/sun.png
+    - assets/images/puzzle.png
+    - assets/images/positive.png
+    - assets/images/deep.png
+    - assets/images/love.png
+    - assets/images/selfcare.png
+    - assets/images/patience.png
+    - assets/images/sad.png
+    - assets/images/sigma.png
+    # Add other assets here if needed
 
   fonts:
     - family: OpenSans

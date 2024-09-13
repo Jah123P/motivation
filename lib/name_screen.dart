@@ -112,6 +112,7 @@ class _NameScreenState extends State<NameScreen> {
         Provider.of<UserModel>(context, listen: false).updateUserName(enteredName);
         Provider.of<UserModel>(context, listen: false).updateUserAgeRange(widget.ageRange);
 
+        // Navigate to ThankYouScreen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

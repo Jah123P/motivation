@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:motivation/theme_notifier.dart';
 import 'package:provider/provider.dart';
 import 'dart:async'; // Import for Timer
+
 import 'random_quotes_screen.dart';
 import 'daily_quotes_screen.dart';
 import 'my_favorites_screen.dart';
@@ -255,16 +256,32 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
                 ),
                 itemCount: filteredTopics.length,
                 itemBuilder: (context, index) {
-                  final topic = filteredTopics[index];
-                  return _buildTopicCard(topic); // Use the _buildTopicCard method
+                  return _buildTopicCard(filteredTopics[index]);
                 },
               ),
             ),
+            if (_isPanelVisible) ...[
+              // Your panel content here, if needed
+              Container(
+                color: Color(0xFF1E293B),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        'Additional Panel Content',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    // Add more widgets here as needed
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -272,6 +289,43 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
   }
 
   Widget _buildTopicCard(String topic) {
+    String imagePath;
+
+    switch (topic) {
+      case 'Random Quotes':
+        imagePath = 'assets/images/dice.png';
+        break;
+      case 'Daily Quotes':
+        imagePath = 'assets/images/sun.png'; // Use correct image
+        break;
+      case 'Designed For YOU':
+        imagePath = 'assets/images/brain.png'; // Use correct image
+        break;
+      case 'Positive Thinking':
+        imagePath = 'assets/images/positive.png'; // Use correct image
+        break;
+      case 'Deep':
+        imagePath = 'assets/images/deep.png';
+        break;
+      case 'Love':
+        imagePath = 'assets/images/love.png';
+        break;
+      case 'Self-care':
+        imagePath = 'assets/images/selfcare.png'; // Ensure filename matches
+        break;
+      case 'Patience':
+        imagePath = 'assets/images/patience.png';
+        break;
+      case 'Sadness Quotes':
+        imagePath = 'assets/images/sad.png'; // Ensure filename matches
+        break;
+      case 'Sigma':
+        imagePath = 'assets/images/sigma.png';
+        break;
+      default:
+        imagePath = 'assets/images/default.png'; // Fallback image
+    }
+
     return GestureDetector(
       onTap: () {
         Widget screen;
@@ -373,14 +427,25 @@ class _ExploreTopicsScreenState extends State<ExploreTopicsScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Center(
-          child: Text(
-            topic,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+        child: Column(
+          children: [
+            Expanded(
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                topic,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

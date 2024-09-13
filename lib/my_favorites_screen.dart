@@ -53,23 +53,6 @@ class MyFavoritesScreen extends StatelessWidget {
           quote,
           style: TextStyle(color: Colors.white, fontSize: 16), // Consistent text style
         ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          color: Colors.white, // Consistent icon color
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RandomQuotesScreen(
-                quote: quote,
-                favoritedQuotes: favoritedQuotes,
-                onFavoriteToggle: onFavoriteToggle,
-                themeData: Theme.of(context), // Pass the current ThemeData
-              ),
-            ),
-          );
-        },
       ),
     );
   }

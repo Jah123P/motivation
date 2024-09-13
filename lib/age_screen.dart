@@ -16,7 +16,11 @@ class AgeScreen extends StatelessWidget {
             children: [
               Text(
                 'How old are you?',
-                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
@@ -38,13 +42,13 @@ class AgeScreen extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Update the age range in the UserModel using Provider
-          Provider.of<UserModel>(context, listen: false).setAgeRange(ageRange);
+          Provider.of<UserModel>(context, listen: false).updateUserAgeRange(ageRange);
 
-          // Navigate to the NameScreen
+          // Navigate to the NameScreen and pass the selected age range
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NameScreen(ageRange: '',),
+              builder: (context) => NameScreen(ageRange: ageRange),
             ),
           );
         },

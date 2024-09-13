@@ -49,7 +49,15 @@ class _SadnessQuotesScreenState extends State<SadnessQuotesScreen> {
       backgroundColor: Color(0xFF1E293B), // Matching color with other screens
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
+        child: widget.sadnessQuotes.isEmpty
+            ? Center(
+          child: Text(
+            'No quotes available',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        )
+            : PageView.builder(
+          scrollDirection: Axis.vertical, // Scroll vertically for new quotes
           itemCount: widget.sadnessQuotes.length,
           itemBuilder: (context, index) {
             final quote = widget.sadnessQuotes[index];
@@ -60,22 +68,37 @@ class _SadnessQuotesScreenState extends State<SadnessQuotesScreen> {
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Color(0xFF334155), // Matching color with other screens
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(12.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black45,
+                    offset: Offset(0, 4),
+                    blurRadius: 8,
+                  ),
+                ],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space out content
                 children: [
-                  Text(
-                    quote,
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                    textAlign: TextAlign.center,
+                  // Quote text at the top
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        quote,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 8.0),
+                  SizedBox(height: 16.0), // Space between quote and buttons
+
+                  // Centered Like and Copy buttons
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
                     children: [
                       IconButton(
-                        icon: Icon(Icons.favorite, color: isFavorited ? Colors.red : Colors.white),
+                        icon: Icon(Icons.favorite,
+                            color: isFavorited ? Colors.red : Colors.white),
                         onPressed: () {
                           setState(() {
                             if (isFavorited) {
@@ -86,9 +109,10 @@ class _SadnessQuotesScreenState extends State<SadnessQuotesScreen> {
                           });
                           widget.onFavoriteToggle(quote);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(isFavorited
-                                ? 'Quote removed from favorites'
-                                : 'Quote added to favorites')),
+                            SnackBar(
+                                content: Text(isFavorited
+                                    ? 'Quote removed from favorites'
+                                    : 'Quote added to favorites')),
                           );
                         },
                       ),

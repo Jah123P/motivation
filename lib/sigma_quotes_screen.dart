@@ -36,7 +36,7 @@ class _SigmaQuotesScreenState extends State<SigmaQuotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1E293B),
+        backgroundColor: Color(0xFF1E293B), // Matching color with other screens
         title: Text('Sigma Quotes', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         leading: IconButton(
@@ -46,10 +46,18 @@ class _SigmaQuotesScreenState extends State<SigmaQuotesScreen> {
           },
         ),
       ),
-      backgroundColor: Color(0xFF1E293B),
+      backgroundColor: Color(0xFF1E293B), // Matching color with other screens
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
+        child: widget.sigmaQuotes.isEmpty
+            ? Center(
+          child: Text(
+            'No quotes available',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        )
+            : PageView.builder(
+          scrollDirection: Axis.vertical, // Scroll vertically for new quotes
           itemCount: widget.sigmaQuotes.length,
           itemBuilder: (context, index) {
             final quote = widget.sigmaQuotes[index];
@@ -59,26 +67,38 @@ class _SigmaQuotesScreenState extends State<SigmaQuotesScreen> {
               margin: EdgeInsets.symmetric(vertical: 8.0),
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFF334155),
-                borderRadius: BorderRadius.circular(8.0),
+                color: Color(0xFF334155), // Matching color with other screens
+                borderRadius: BorderRadius.circular(12.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black45,
+                    offset: Offset(0, 4),
+                    blurRadius: 8,
+                  ),
+                ],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space out content
                 children: [
-                  Text(
-                    quote,
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                    textAlign: TextAlign.center,
+                  // Quote text at the top
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        quote,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 8.0),
+                  SizedBox(height: 16.0), // Space between quote and buttons
+
+                  // Centered Like and Copy buttons
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
                     children: [
                       IconButton(
-                        icon: Icon(
-                          Icons.favorite,
-                          color: isFavorited ? Colors.red : Colors.white,
-                        ),
+                        icon: Icon(Icons.favorite,
+                            color: isFavorited ? Colors.red : Colors.white),
                         onPressed: () {
                           setState(() {
                             if (isFavorited) {
@@ -89,15 +109,16 @@ class _SigmaQuotesScreenState extends State<SigmaQuotesScreen> {
                           });
                           widget.onFavoriteToggle(quote);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(isFavorited
-                                ? 'Quote removed from favorites'
-                                : 'Quote added to favorites')),
+                            SnackBar(
+                                content: Text(isFavorited
+                                    ? 'Quote removed from favorites'
+                                    : 'Quote added to favorites')),
                           );
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.copy, color: Colors.white),
-                        onPressed: () => _copyToClipboard(quote),
+                        icon: Icon(Icons.copy, color: Colors.white), // Copy icon
+                        onPressed: () => _copyToClipboard(quote), // Copy function
                       ),
                     ],
                   ),
