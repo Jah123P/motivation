@@ -7,10 +7,10 @@ class AgeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black, // Keep the dark background for consistency
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0), // Padding around the screen
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -18,12 +18,12 @@ class AgeScreen extends StatelessWidget {
                 'How old are you?',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 24, // Keep font size as in the original version
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20), // Space between title and buttons
               _ageOption(context, '13 to 17'),
               _ageOption(context, '18 to 24'),
               _ageOption(context, '25 to 34'),
@@ -38,7 +38,7 @@ class AgeScreen extends StatelessWidget {
 
   Widget _ageOption(BuildContext context, String ageRange) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0), // Vertical spacing between buttons
       child: ElevatedButton(
         onPressed: () {
           // Update the age range in the UserModel using Provider
@@ -53,9 +53,15 @@ class AgeScreen extends StatelessWidget {
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-          textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          backgroundColor: Colors.blueAccent, // Maintain the blue background
+          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0), // Same padding as original version
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30), // Rounded corners for consistency
+          ),
+          textStyle: TextStyle(
+            fontSize: 16, // Same font size as original version
+            fontWeight: FontWeight.bold,
+          ),
         ),
         child: Text(ageRange, style: TextStyle(color: Colors.white)),
       ),

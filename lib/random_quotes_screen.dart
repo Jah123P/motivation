@@ -5,13 +5,13 @@ class RandomQuotesScreen extends StatefulWidget {
   final String quote;
   final List<String> favoritedQuotes;
   final Function(String) onFavoriteToggle;
-  final ThemeData themeData; // Add themeData parameter
+  final ThemeData themeData;
 
   RandomQuotesScreen({
     required this.quote,
     required this.favoritedQuotes,
     required this.onFavoriteToggle,
-    required this.themeData, // Initialize themeData
+    required this.themeData,
   });
 
   @override
@@ -37,43 +37,42 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black, // Set full black background for screen
       appBar: AppBar(
-        backgroundColor: Color(0xFF1E293B), // Match the color with SigmaQuotesScreen
-        title: Text('Random Quote', style: TextStyle(color: Colors.white)),
-        centerTitle: true,
+        backgroundColor: Colors.transparent, // Make the AppBar transparent
+        elevation: 0, // Remove the shadow
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white), // Back button icon
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context); // Pop the screen when back button is pressed
           },
         ),
       ),
-      backgroundColor: Color(0xFF1E293B), // Match the color with SigmaQuotesScreen
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Container(
+        color: Colors.black, // Ensure the background stays black
         child: Center(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Color(0xFF334155), // Match the color with SigmaQuotesScreen
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Adjusts the height to content
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   widget.quote,
-                  style: TextStyle(color: Colors.white, fontSize: 18), // Adjusted font size
-                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24, // Larger font size for emphasis
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center, // Align the text center here
                 ),
-                SizedBox(height: 8.0), // Adjusted spacing to match SigmaQuotesScreen
+                SizedBox(height: 16.0), // Spacing between text and buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
                       icon: Icon(
                         Icons.favorite,
-                        color: isFavorited ? Colors.red : Colors.white,
+                        color: isFavorited ? Colors.red : Colors.grey,
                       ),
                       onPressed: () {
                         setState(() {
@@ -88,8 +87,8 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.copy, color: Colors.white), // Consistent icon color
-                      onPressed: _copyToClipboard, // Updated function
+                      icon: Icon(Icons.copy, color: Colors.white),
+                      onPressed: _copyToClipboard,
                     ),
                   ],
                 ),

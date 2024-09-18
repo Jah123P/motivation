@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 class UserModel with ChangeNotifier {
   String? _name;
   String? _ageRange;
+  bool _dailyNotificationsEnabled = false; // Default value
 
   // Getter for the name
   String? get name => _name;
@@ -22,6 +23,15 @@ class UserModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // Getter for daily notifications
+  bool get dailyNotificationsEnabled => _dailyNotificationsEnabled;
+
+  // Method to toggle daily notifications
+  void toggleDailyNotifications(bool value) {
+    _dailyNotificationsEnabled = value;
+    notifyListeners();
+  }
+
   // Method to update the user name
   void updateUserName(String enteredName) {
     _name = enteredName;
@@ -34,7 +44,7 @@ class UserModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // This is redundant since the setter already exists, but kept for clarity
+  // Method to explicitly set age range (kept for clarity)
   void setAgeRange(String ageRange) {
     _ageRange = ageRange;
     notifyListeners();

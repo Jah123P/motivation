@@ -1,3 +1,5 @@
+// settings_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme_notifier.dart'; // Import the theme notifier
@@ -74,9 +76,10 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   SwitchListTile(
                     title: Text('Enable Daily Notifications'),
-                    value: false, // Change to actual notification setting state
+                    value: userModel.dailyNotificationsEnabled,
                     onChanged: (value) {
-                      // Implement notification logic if needed
+                      userModel.toggleDailyNotifications(value);
+                      // Optionally, handle further actions like scheduling notifications
                     },
                     secondary: Icon(Icons.notifications, color: Theme.of(context).iconTheme.color),
                   ),
