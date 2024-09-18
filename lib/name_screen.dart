@@ -39,29 +39,20 @@ class _NameScreenState extends State<NameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size; // Get screen size
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: screenSize.width * 0.05,
-            vertical: screenSize.height * 0.1,
-          ),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'What should we call you?',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: screenSize.width * 0.06, // Responsive text size
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: screenSize.height * 0.05), // Responsive spacing
+              SizedBox(height: 20),
               TextField(
                 controller: _controller,
                 decoration: InputDecoration(
@@ -69,39 +60,32 @@ class _NameScreenState extends State<NameScreen> {
                   hintStyle: TextStyle(color: Colors.white54),
                   errorText: _errorText,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(color: Colors.white),
                   ),
                   filled: true,
-                  fillColor: Color(0xFF334155), // Same fill color as before
+                  fillColor: Color(0xFF334155),
                 ),
                 style: TextStyle(color: Colors.white),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                 ],
               ),
-              SizedBox(height: screenSize.height * 0.05),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   _validateInput(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent, // Same blue color
-                  padding: EdgeInsets.symmetric(
-                    vertical: screenSize.height * 0.02,
-                    horizontal: screenSize.width * 0.1,
-                  ), // Button padding consistent with previous screens
+                  backgroundColor: Colors.blue,
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // Rounded corners
-                  ),
-                  textStyle: TextStyle(
-                    fontSize: screenSize.width * 0.05,
-                    fontWeight: FontWeight.bold,
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Text(
                   'Continue',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
             ],

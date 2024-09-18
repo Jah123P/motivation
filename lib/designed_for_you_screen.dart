@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import for Clipboard
+import 'settings_screen.dart'; // Import your SettingsScreen
 
 class DesignedForYouScreen extends StatefulWidget {
   final List<String> quotes;
@@ -35,18 +36,30 @@ class _DesignedForYouScreenState extends State<DesignedForYouScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black, // Full black background
       appBar: AppBar(
-        backgroundColor: Color(0xFF1E293B), // Matching color with other screens
+        backgroundColor: Colors.transparent, // Transparent AppBar
+        elevation: 0, // No shadow
         title: Text('Designed For You', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white), // Back button
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context); // Navigate back to the previous screen
           },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings, color: Colors.white), // Settings icon
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
+              );
+            },
+          ),
+        ],
       ),
-      backgroundColor: Color(0xFF1E293B), // Matching color with other screens
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: widget.quotes.isEmpty
@@ -64,65 +77,56 @@ class _DesignedForYouScreenState extends State<DesignedForYouScreen> {
             final isFavorited = favoritedQuotesSet.contains(quote);
 
             return Container(
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Color(0xFF334155), // Matching color with other screens
-                borderRadius: BorderRadius.circular(12.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black45,
-                    offset: Offset(0, 4),
-                    blurRadius: 8,
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjusted to space out content
-                children: [
-                  // Quote text at the top
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        quote,
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                        textAlign: TextAlign.center,
+              color: Colors.black, // Full black background for quotes
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          quote,
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 16.0), // Space between quote and buttons
-
-                  // Like and Copy buttons centered at the bottom of the quote
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.favorite,
-                            color: isFavorited ? Colors.red : Colors.white),
-                        onPressed: () {
-                          setState(() {
-                            if (isFavorited) {
-                              favoritedQuotesSet.remove(quote);
-                            } else {
-                              favoritedQuotesSet.add(quote);
-                            }
-                          });
-                          widget.onFavoriteToggle(quote);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                    SizedBox(height: 16.0), // Space between quote and buttons
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center, // Center the buttons
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.favorite,
+                            color: isFavorited ? Colors.red : Colors.white,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (isFavorited) {
+                                favoritedQuotesSet.remove(quote);
+                              } else {
+                                favoritedQuotesSet.add(quote);
+                              }
+                            });
+                            widget.onFavoriteToggle(quote);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
                                 content: Text(isFavorited
                                     ? 'Quote removed from favorites'
-                                    : 'Quote added to favorites')),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.copy, color: Colors.white), // Copy icon
-                        onPressed: () => _copyToClipboard(quote), // Copy function
-                      ),
-                    ],
-                  ),
-                ],
+                                    : 'Quote added to favorites'),
+                              ),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.copy, color: Colors.white), // Copy icon
+                          onPressed: () => _copyToClipboard(quote), // Copy function
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           },

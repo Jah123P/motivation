@@ -37,10 +37,12 @@ class _RandomQuotesScreenState extends State<RandomQuotesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Set full black background for screen
+      backgroundColor: Colors.black, // Full black background
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // Make the AppBar transparent
-        elevation: 0, // Remove the shadow
+        backgroundColor: Colors.transparent, // Transparent AppBar
+        elevation: 0, // No shadow
+        title: Text('Random Quotes', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white), // Back button icon
           onPressed: () {

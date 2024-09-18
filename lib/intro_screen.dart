@@ -18,7 +18,7 @@ class IntroScreen extends StatelessWidget {
           children: [
             // Title
             Text(
-              "Welcome To Kaizen",
+              "Welcome to Kaizen",
               style: TextStyle(
                 fontSize: screenSize.width * 0.07,
                 fontWeight: FontWeight.bold,
@@ -32,22 +32,22 @@ class IntroScreen extends StatelessWidget {
                 _buildFeatureItem(
                   context,
                   Icons.design_services, // Use a relevant icon
-                  "Motivation Just For You",
-                  "Explore new features and improved layout.",
+                  "Daily Motivation",
+                  "Stay inspired with curated quotes and empowering features.",
                 ),
                 SizedBox(height: screenSize.height * 0.03), // Spacing between features
                 _buildFeatureItem(
                   context,
                   Icons.collections,
-                  "Quotes Designed And Published By Actual Public Speakers",
-                  "Browse through personalized content categories.",
+                  "Handpicked by Experts",
+                  "Discover content designed by motivational speakers and leaders.",
                 ),
                 SizedBox(height: screenSize.height * 0.03),
                 _buildFeatureItem(
                   context,
                   Icons.settings,
-                  "Fully Customizable",
-                  "Adjust the app to suit your needs and preferences.",
+                  "Personalize Your Journey",
+                  "Tailor the app to align with your goals and aspirations.",
                 ),
               ],
             ),
@@ -70,7 +70,7 @@ class IntroScreen extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Continue',
+                'Get Started',
                 style: TextStyle(color: Colors.white, fontSize: screenSize.width * 0.05),
               ),
             ),
